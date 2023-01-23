@@ -1,6 +1,8 @@
-#include<iostream>
-#include <glad/glad.h>
-#include<GLFW/glfw3.h>
+#include <iostream>
+#define GLEW_STATIC
+#include <GL/glew.h>
+#include <GL/wglew.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
 
@@ -20,7 +22,7 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "}\0";
 
 int main() {
-
+	
 	// Initializa glfw for window creation 
 	glfwInit();
 
@@ -57,7 +59,13 @@ int main() {
 	// Window intoduction in it's current context 
 	glfwMakeContextCurrent(window); 
 	// Loads glad for opengl
-	gladLoadGL();
+	glewInit();
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+	{
+		/* Problem: glewInit failed, something is seriously wrong. */
+		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+	}
 
 
 	// x = 0, y = 0, to x = 800, y = 800
